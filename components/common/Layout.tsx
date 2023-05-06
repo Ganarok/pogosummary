@@ -1,5 +1,5 @@
 import Head from "next/head"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 
 import Header from "components/common/Header"
 import Footer from "components/common/Footer"
@@ -10,10 +10,11 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children, className = '' }) => {
+
     return (
         <>
             <Head>
-                <title>Pogo Summary</title>
+                <title>PoGo Summary</title>
                 <meta name="description" content="PoGo Summary" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -21,8 +22,6 @@ const Layout: FC<LayoutProps> = ({ children, className = '' }) => {
             <Header />
 
             <main id="main" className={`${className} flex min-h-screen`}>{children}</main>
-
-            <Footer />
         </>
     )
 }

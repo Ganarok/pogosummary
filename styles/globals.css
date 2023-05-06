@@ -17,6 +17,9 @@
     .hoverStyle {
         @apply hover:scale-105 transition duration-200 cursor-pointer
     }
+    .gradient-red {
+        @apply bg-gradient-to-r from-red-500 to-orange-500
+    }
 }
 
 @font-face {

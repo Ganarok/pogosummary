@@ -35,6 +35,9 @@ const Pokemons: React.FC = () => {
 
                 const parsedPokemons: Array<IPokemon> = Object.entries(data).map(([key, value]) => value)
 
+                console.log(parsedPokemons);
+                
+
                 setPokemons(parsedPokemons)
             } catch (error) {
                 console.error(error)
