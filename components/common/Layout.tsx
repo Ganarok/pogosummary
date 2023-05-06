@@ -20,7 +20,7 @@ const Layout: FC<LayoutProps> = ({ children, className = '' }) => {
 
             <Header />
 
-            <main className={`${className} flex min-h-screen`}>{children}</main>
+            <main id="main" className={`${className} flex min-h-screen`}>{children}</main>
 
             <Footer />
         </>

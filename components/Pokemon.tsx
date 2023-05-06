@@ -8,10 +8,9 @@ interface PokemonProps {
 
 const Pokemon: React.FC<PokemonProps> = ({ id, name, style }) => {
     return (
-
         <div
+            className="flex flex-col space-y-4 items-center justify-center col-span-1 hover:hoverStyle"
             style={style}
-            className="flex flex-col col-span-1 space-y-4 items-center justify-center hover:hoverStyle"
         >
             <div className="relative bg-slate-700 w-60 h-60">
                 <Image 
