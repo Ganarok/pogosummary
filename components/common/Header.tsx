@@ -27,7 +27,7 @@ const Header: React.FC = () => {
         if (typeof window !== 'undefined') {
             const handleResize = () => {
                 setIsMobile(window.innerWidth <= 640)
-                document.body.style.overflow = isMenuOpen ? "hidden" : "auto"
+                document.body.style.overflow = isMenuOpen ? "hidden" : "auto"                
             }
         
             window.addEventListener("resize", handleResize)
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
                 window.removeEventListener("resize", handleResize)
             }
         }
-    }, [isMobile])
+    }, [isMobile, isMenuOpen])
 
     return (
         <div className="flex flex-row-reverse relative justify-between items-center w-screen border-b-2 border-red-500 p-4 bg-slate-950">

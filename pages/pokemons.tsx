@@ -96,6 +96,7 @@ const Pokemons: React.FC = () => {
                             rowCount={pokemons.length}
                             columnWidth={300}
                             columnCount={Math.floor(windowWidth / 300)}
+                            className="grid items-center justify-center"
                         />
                     )}
                 </AutoSizer>
