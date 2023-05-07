@@ -33,10 +33,7 @@ const Pokemons: React.FC = () => {
 
                 if (!response.ok || !data) throw new Error("Failed to fetch pokemons")
 
-                const parsedPokemons: Array<IPokemon> = Object.entries(data).map(([key, value]) => value)
-
-                console.log(parsedPokemons);
-                
+                const parsedPokemons: Array<IPokemon> = Object.entries(data).map(([key, value]) => value)                
 
                 setPokemons(parsedPokemons)
             } catch (error) {
@@ -65,6 +62,9 @@ const Pokemons: React.FC = () => {
 
     const cellRendering = ({ key, rowIndex, columnIndex, style }: GridCellProps) => {
         const pokemon = pokemons[rowIndex * 3 + columnIndex]
+
+        if (!pokemon)
+            return
 
         return (
             <Pokemon 
