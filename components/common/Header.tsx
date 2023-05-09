@@ -14,11 +14,11 @@ const Header: React.FC = () => {
             href: "/"
         },
         {
-            name: "Pokemons",
+            name: "Pokemon released",
             href: "/pokemons"
         },
         {
-            name: "Ditto",
+            name: "Possible dittos",
             href: "/dittos"
         },
     ]

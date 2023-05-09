@@ -5,7 +5,7 @@
 @layer base {
     html {
         scroll-behavior: smooth;
-        @apply bg-gradient-to-b from-slate-900 to-black text-white min-h-screen
+        @apply bg-gradient-to-b from-slate-800 to-black text-white min-h-screen
     }
     
     body {
@@ -15,7 +15,7 @@
 
 @layer components {
     .hoverStyle {
-        @apply hover:scale-105 transition duration-200 cursor-pointer
+        @apply hover:scale-105 transition duration-200 cursor-pointer opacity-90
     }
     .gradient-red {
         @apply bg-gradient-to-r from-red-500 to-orange-500

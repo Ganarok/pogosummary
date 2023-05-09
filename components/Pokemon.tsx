@@ -1,16 +1,15 @@
 import Image from "next/image"
+import Link from "next/link"
 
-interface PokemonProps {
-    id: number,
-    name: string,
-    style: object
-}
+import { PokemonProps } from "lib/types"
 
 const Pokemon: React.FC<PokemonProps> = ({ id, name, style }) => {
     return (
-        <div
-            className="flex flex-col space-y-4 items-center self-center justify-center col-span-1 hover:hoverStyle"
+        <Link
+            href={`/pokemons/${id}`}
             style={style}
+            prefetch={false}
+            className="flex flex-col space-y-4 items-center self-center justify-center col-span-1 hover:hoverStyle"
         >
             <div className="relative bg-slate-700 w-60 h-60">
                 <Image 
@@ -25,7 +24,7 @@ const Pokemon: React.FC<PokemonProps> = ({ id, name, style }) => {
             <p className="font-bold">
                 {name}
             </p>
-        </div>
+        </Link>
     )
 }
 

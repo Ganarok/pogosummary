@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react"
-import { 
-    AutoSizer,
+import {
     Grid,
     GridCellProps
 } from "react-virtualized"
 
+import { IPokemon, IPokemons } from "lib/types"
 import Layout from "components/common/Layout"
 import Loader from "components/common/Loader"
 import Pokemon from "components/Pokemon"
 
-interface IPokemon {
-    name: string
-    id: number
-}
-
-interface IPokemons {
-    [key: string]: IPokemon
-}
 
 const Pokemons: React.FC = () => {
     const [ pokemons, setPokemons ] = useState(Array<IPokemon>())
@@ -61,8 +53,10 @@ const Pokemons: React.FC = () => {
     }, [windowWidth])
 
     const cellRendering = ({ key, rowIndex, columnIndex, style }: GridCellProps) => {
-        const pokemon = pokemons[rowIndex * 3 + columnIndex]
-
+        const indexes = key.split("-")
+        const index = parseInt(indexes[0]) * Math.floor(windowWidth / 300) + parseInt(indexes[1])
+        const pokemon = pokemons[index]
+    
         if (!pokemon)
             return
 
@@ -85,21 +79,17 @@ const Pokemons: React.FC = () => {
             }
 
             {!loading && pokemons.length > 0 &&
-                <AutoSizer style={{ width: '100%', height: '100%' }}>
-                    {({ width, height }) => (
-                        <Grid
-                            width={width}
-                            height={height}
-                            rowHeight={300}
-                            cellRenderer={cellRendering}
-                            scrollToAlignment="center"
-                            rowCount={pokemons.length}
-                            columnWidth={300}
-                            columnCount={Math.floor(windowWidth / 300)}
-                            className="grid items-center justify-center"
-                        />
-                    )}
-                </AutoSizer>
+                <Grid
+                    width={windowWidth}
+                    height={window.innerHeight - 80}
+                    rowHeight={300}
+                    cellRenderer={cellRendering}
+                    scrollToAlignment="center"
+                    rowCount={pokemons.length}
+                    columnWidth={300}
+                    columnCount={Math.floor(windowWidth / 300)}
+                    className="grid items-center justify-center"
+                />
             }
         </Layout>
     )
