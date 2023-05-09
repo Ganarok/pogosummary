@@ -52,7 +52,7 @@ const Pokemons: React.FC = () => {
         }
     }, [windowWidth])
 
-    const cellRendering = ({ key, rowIndex, columnIndex, style }: GridCellProps) => {
+    const cellRendering = ({ key, style }: GridCellProps) => {
         const indexes = key.split("-")
         const index = parseInt(indexes[0]) * Math.floor(windowWidth / 300) + parseInt(indexes[1])
         const pokemon = pokemons[index]

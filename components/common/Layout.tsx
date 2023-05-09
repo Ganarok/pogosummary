@@ -1,8 +1,7 @@
 import Head from "next/head"
-import React, { FC, useEffect, useState } from "react"
+import React, { FC } from "react"
 
 import Header from "components/common/Header"
-import Footer from "components/common/Footer"
 
 interface LayoutProps {
     children: React.ReactNode,

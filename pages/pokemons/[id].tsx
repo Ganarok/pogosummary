@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { ISinglePokemon } from "lib/types"
 import Layout from "components/common/Layout"
 import Loader from "components/common/Loader"
 import Image from "next/image"
@@ -12,7 +11,6 @@ const PokemonId: React.FC = () => {
     const [ isShiny, setIsShiny ] = useState(false)
     const [ pokemon, setPokemon ] = useState({})
 
-    // https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex/id/{id}.json
     useEffect(() => {
         if (!id)
             return
