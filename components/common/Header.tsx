@@ -6,7 +6,7 @@ import Image from "next/image"
 const Header: React.FC = () => {
     const [ isMobile, setIsMobile ] = useState(false)
     const [ isMenuOpen, setIsMenuOpen ] = useState(false)
-    const path = useRouter().pathname
+    const router = useRouter()
     
     const links = [
         {
@@ -22,6 +22,12 @@ const Header: React.FC = () => {
             href: "/dittos"
         },
     ]
+
+    const changeLocale = (locale: string) => {
+        router.locale = locale
+        router.push(router.pathname, router.asPath, { locale })
+        setIsMenuOpen(false)
+    }
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -60,7 +66,7 @@ const Header: React.FC = () => {
                                     href={link.href}
                                     className={`
                                         hoverStyle font-bold text-2xl
-                                        ${path === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
+                                        ${router.pathname === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
                                     `}
                                 >
                                     {link.name}
@@ -114,6 +120,18 @@ const Header: React.FC = () => {
                                     alt="User"
                                 />
                             </a>
+
+                            <div
+                                className="relative w-12 h-12"
+                                onClick={changeLocale.bind(this, router.locale === "en" ? "fr" : "en")}
+                            >
+                                <Image
+                                    src="/images/locale.svg"
+                                    fill
+                                    className="object-contain"
+                                    alt="Locale"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,7 +158,7 @@ const Header: React.FC = () => {
                             href={link.href}
                             className={`
                                 hoverStyle font-bold
-                                ${path === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
+                                ${router.pathname === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
                             `}
                         >
                             {link.name}

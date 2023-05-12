@@ -12,6 +12,7 @@ const Loader: React.FC<LoaderProps> = ({ size = 12 }) => {
                 fill
                 sizes="5vw"
                 alt="Pokeball"
+                priority
             />
         </div>
     )
