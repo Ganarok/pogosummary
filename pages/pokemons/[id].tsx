@@ -7,6 +7,7 @@ import Image from "next/image"
 import getLanguage from 'lib/getLanguage'
 import Layout from "components/common/Layout"
 import Loader from "components/common/Loader"
+import { IPokemonIDResponse } from 'lib/types'
 
 const PokemonId: React.FC = () => {
     const { query: { id }, locale } = useRouter()
@@ -14,7 +15,7 @@ const PokemonId: React.FC = () => {
     const [ isShiny, setIsShiny ] = useState(false)
     const [ isMega, setIsMega ] = useState(false)
     const [ asset, setAsset ] = useState("")
-    const [ pokemon, setPokemon ] = useState({})    
+    const [ pokemon, setPokemon ] = useState({} as IPokemonIDResponse)    
 
     useEffect(() => {
         if (!id)
@@ -27,9 +28,10 @@ const PokemonId: React.FC = () => {
                 if (!id) throw new Error("Failed to fetch pokemon: no ID provided")
 
                 const response = await fetch(`https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex/id/${id}.json`)
-                const data = await response.json()
-
-                if (!response.ok || !data) throw new Error("Failed to fetch pokemon: invalid data")
+                
+                if (!response.ok) throw new Error("Failed to fetch pokemon: invalid data")
+                
+                const data: IPokemonIDResponse = await response.json()
 
                 console.log(data)
 
@@ -56,13 +58,27 @@ const PokemonId: React.FC = () => {
                 <div className="flex space-y-4 w-full">
                     <div className="flex flex-col m-4 md:flex-row w-full items-center md:items-stretch md:justify-center md:space-x-4">
                         <div className="relative bg-slate-700 w-60 h-60 sm:w-72 sm:h-72">
-                            <Image
-                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${isShiny ? 'shiny/' : ''}${id}.png`}
-                                fill
-                                sizes="25vw"
-                                alt='pokemon'
-                                priority
-                            />
+                            {isMega ?
+                                <Image
+                                    src={isShiny ?
+                                        pokemon.megaEvolutions[Object.keys(pokemon.megaEvolutions)[0]].assets.shinyImage
+                                        : pokemon.megaEvolutions[Object.keys(pokemon.megaEvolutions)[0]].assets.image
+                                    }
+                                    fill
+                                    sizes="25vw"
+                                    alt='pokemon'
+                                    className='object-contain'
+                                />
+                                :
+                                <Image
+                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${isShiny ? 'shiny/' : ''}${id}.png`}
+                                    fill
+                                    sizes="25vw"
+                                    alt='pokemon'
+                                    priority
+                                />
+                            }
+
 
                             <div 
                                 className={`
@@ -83,7 +99,7 @@ const PokemonId: React.FC = () => {
                                 <div 
                                     className={`
                                         absolute top-0 right-0 w-6 h-6 rounded-full p-5 m-2 select-none hover:hoverStyle
-                                        ${isMega ? 'scale-105' : ''}
+                                        ${isMega ? 'scale-110' : 'grayscale'}
                                     `}
                                     onClick={setIsMega.bind(this, !isMega)}
                                 >
@@ -92,14 +108,13 @@ const PokemonId: React.FC = () => {
                                         alt='shiny'
                                         fill
                                         sizes="5vw"
-                                        className='object-contain'
                                     />
                                 </div>
                             }
                         </div>
 
-                        <div className='flex flex-col space-y-2 font-bold'>
-                            <h3 className="py-2 text-xl">
+                        <div className='flex flex-col space-y-2 font-bold w-3/4 sm:w-auto'>
+                            <h3 className="py-2 text-xl text-center sm:text-left">
                                 {pokemon.names[getLanguage(locale)]}
                             </h3>
 
