@@ -8,14 +8,17 @@ import getLanguage from 'lib/getLanguage'
 import Layout from "components/common/Layout"
 import Loader from "components/common/Loader"
 import { IPokemonIDResponse } from 'lib/types'
+import { getColorByType } from 'lib/getColor'
 
 const PokemonId: React.FC = () => {
     const { query: { id }, locale } = useRouter()
     const [ loading, setLoading ] = useState(true)
     const [ isShiny, setIsShiny ] = useState(false)
     const [ isMega, setIsMega ] = useState(false)
-    const [ asset, setAsset ] = useState("")
-    const [ pokemon, setPokemon ] = useState({} as IPokemonIDResponse)    
+    const [ pokemon, setPokemon ] = useState({} as IPokemonIDResponse)
+    const [ pokemonPrimaryType, setPokemonPrimaryType ] = useState("")
+    const [ pokemonSecondaryType, setPokemonSecondaryType ] = useState("")
+    // const [ evolutions, setEvolutions ] = useState([])
 
     useEffect(() => {
         if (!id)
@@ -36,6 +39,24 @@ const PokemonId: React.FC = () => {
                 console.log(data)
 
                 setPokemon(data)
+                setPokemonPrimaryType(getColorByType(data.primaryType.type))
+
+                if (data.secondaryType)
+                    setPokemonSecondaryType(getColorByType(data.secondaryType.type))
+
+                // const test = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+
+                // if (!test.ok) throw new Error("Failed to fetch pokemon: invalid data")
+
+                // const test2 = await test.json()
+
+                // const evolutionchain = await fetch(test2.evolution_chain.url)
+
+                // if (!evolutionchain.ok) throw new Error("Failed to fetch pokemon: invalid data")
+
+                // const evolutionchain2 = await evolutionchain.json()
+
+                // console.log('evolutionchain2', evolutionchain2)
             } catch (error) {
                 console.error(error)
             } finally {
@@ -55,9 +76,9 @@ const PokemonId: React.FC = () => {
             }
 
             {!loading &&
-                <div className="flex space-y-4 w-full">
-                    <div className="flex flex-col m-4 md:flex-row w-full items-center md:items-stretch md:justify-center md:space-x-4">
-                        <div className="relative bg-slate-700 w-60 h-60 sm:w-72 sm:h-72">
+                <div className="flex justify-center space-y-4 w-full">
+                    <div className={`flex flex-col m-4 p-4 gap-4 border-2 border-${pokemonPrimaryType} bg-slate-950 md:flex-row-reverse w-full items-center md:items-stretch md:max-w-7xl md:justify-between`}>
+                        <div className={`relative bg-slate-700 w-60 h-60 sm:w-72 sm:h-72 lg:w-96 lg:h-96 border-2 border-${pokemonSecondaryType} rounded-sm`}>
                             {isMega ?
                                 <Image
                                     src={isShiny ?
@@ -76,6 +97,7 @@ const PokemonId: React.FC = () => {
                                     sizes="25vw"
                                     alt='pokemon'
                                     priority
+                                    className='object-contain'
                                 />
                             }
 
@@ -92,6 +114,7 @@ const PokemonId: React.FC = () => {
                                     alt='shiny'
                                     fill
                                     sizes="5vw"
+                                    className='object-contain'
                                 />
                             </div>
 
@@ -108,15 +131,22 @@ const PokemonId: React.FC = () => {
                                         alt='shiny'
                                         fill
                                         sizes="5vw"
+                                        className='object-contain'
                                     />
                                 </div>
                             }
                         </div>
 
-                        <div className='flex flex-col space-y-2 font-bold w-3/4 sm:w-auto'>
-                            <h3 className="py-2 text-xl text-center sm:text-left">
-                                {pokemon.names[getLanguage(locale)]}
-                            </h3>
+                        <div className='flex flex-col space-y-2 font-bold'>
+                            <div className='flex space-x-2 items-center'>
+                                <h3 className={`bg-${pokemonSecondaryType ? pokemonSecondaryType : pokemonPrimaryType } text-xl p-2 rounded-xl`}>
+                                    #{pokemon.dexNr}
+                                </h3>
+
+                                <h3 className={`bg-${pokemonPrimaryType} text-xl p-2 rounded-xl`}>
+                                    {pokemon.names[getLanguage(locale)]}
+                                </h3>
+                            </div>
 
                             <p>
                                 Generation : {pokemon.generation}

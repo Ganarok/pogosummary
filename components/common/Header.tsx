@@ -21,6 +21,10 @@ const Header: React.FC = () => {
             name: "Possible dittos",
             href: "/dittos"
         },
+        {
+            name: "Shadow pokemons",
+            href: "/shadows"
+        },
     ]
 
     const changeLocale = (locale: string) => {
