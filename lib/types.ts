@@ -2,7 +2,7 @@
  * Commonly shared Interfaces & Enums 
  */
 
-import common from 'public/locales/en/common.json'
+import common from 'public/locales/fr/common.json'
 
 export interface IPokemon {
     name: string

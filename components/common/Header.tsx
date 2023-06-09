@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -6,23 +7,24 @@ import Image from "next/image"
 const Header: React.FC = () => {
     const [ isMobile, setIsMobile ] = useState(false)
     const [ isMenuOpen, setIsMenuOpen ] = useState(false)
+    const { t } = useTranslation("common")
     const router = useRouter()
     
     const links = [
         {
-            name: "Home",
+            name: "Accueil",
             href: "/"
         },
         {
-            name: "Pokemon released",
+            name: "Pokémons sortis",
             href: "/pokemons"
         },
         {
-            name: "Possible dittos",
+            name: "Métamorphs possibles",
             href: "/dittos"
         },
         {
-            name: "Shadow pokemons",
+            name: "Pokémons obscurs",
             href: "/shadows"
         },
     ]
@@ -51,9 +53,24 @@ const Header: React.FC = () => {
 
     return (
         <div className="flex flex-row-reverse relative justify-between items-center w-screen border-b-2 border-red-500 p-4 bg-slate-950">
-            <h1 className="italic">
-                PoGo Summary
-            </h1>
+            <div className="flex space-x-4 items-center">
+                <div
+                    className="hidden sm:block relative hoverStyle w-7 h-7"
+                    onClick={changeLocale.bind(this, router.locale === "en" ? "fr" : "en")}
+                >
+                    <Image
+                        src="/images/locale.svg"
+                        sizes="10vw"
+                        fill
+                        alt="Locale"
+                        className="object-contain"
+                    />
+                </div>
+
+                <h1 className="text-xl italic">
+                    PoGo Summary
+                </h1>
+            </div>
 
             {isMobile &&
                 <div className="absolute h-screen top-0 left-0 z-10">
@@ -73,7 +90,7 @@ const Header: React.FC = () => {
                                         ${router.pathname === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
                                     `}
                                 >
-                                    {link.name}
+                                    {t(link.name)}
                                 </Link>
                             )}
                         </div>
@@ -165,7 +182,7 @@ const Header: React.FC = () => {
                                 ${router.pathname === link.href ? "bg-clip-text gradient-red text-transparent" : "text-white"}
                             `}
                         >
-                            {link.name}
+                            {t(link.name)}
                         </Link>
                     )}
                 </div>
